@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="format-detection" content="telephone=no">
+<meta name="color-scheme" content="light dark">
+<title>批判性思维技能测验</title>
+<style>
+:root{
+  --ground:#F6F7FA; --surface:#FFFFFF; --surface-2:#F1F3F8;
+  --ink:#14182A; --ink-2:#39415C; --muted:#5A637A; --faint:#8A92A8;
+  --line:#E2E5EE; --line-2:#CDD3E1;
+  --accent:#2F3C7E; --accent-soft:#EAEDF7; --accent-line:#C3CAE6;
+  --alert:#9E1B32; --alert-soft:#FBEDF0; --alert-line:#E8C3CC;
+  --warn:#A35A00; --warn-soft:#FBF1E3; --warn-line:#EBD2AE;
+  --good:#0F766E; --good-soft:#E6F2F0; --good-line:#B6D9D4;
+  --shadow:0 1px 2px rgba(20,24,42,.05),0 8px 24px -16px rgba(20,24,42,.25);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1020; --surface:#161A2B; --surface-2:#1E2336;
+    --ink:#EDF0F8; --ink-2:#C3CADD; --muted:#98A1BA; --faint:#7A839E;
+    --line:#272D44; --line-2:#363E5A;
+    --accent:#8B9AE8; --accent-soft:#1D2340; --accent-line:#39426E;
+    --alert:#EE8095; --alert-soft:#2C1A24; --alert-line:#55303C;
+    --warn:#E6A85A; --warn-soft:#2B2216; --warn-line:#4F3D22;
+    --good:#4FC0B4; --good-soft:#102A27; --good-line:#22453F;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -18px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1020; --surface:#161A2B; --surface-2:#1E2336;
+  --ink:#EDF0F8; --ink-2:#C3CADD; --muted:#98A1BA; --faint:#7A839E;
+  --line:#272D44; --line-2:#363E5A;
+  --accent:#8B9AE8; --accent-soft:#1D2340; --accent-line:#39426E;
+  --alert:#EE8095; --alert-soft:#2C1A24; --alert-line:#55303C;
+  --warn:#E6A85A; --warn-soft:#2B2216; --warn-line:#4F3D22;
+  --good:#4FC0B4; --good-soft:#102A27; --good-line:#22453F;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -18px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html,body{margin:0}
+body{
+  background:var(--ground);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC","Source Han Sans SC",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  -webkit-tap-highlight-color:transparent;
+}
+.num{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Roboto Mono",monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 56px}
+
+/* header */
+.masthead{background:var(--surface);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.masthead .wrap{padding-top:24px;padding-bottom:20px}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--accent);font-weight:600}
+h1{font-size:26px;line-height:1.3;margin:8px 0 0;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:14px;margin:6px 0 0}
+.meta{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:12px;font-size:12.5px;color:var(--faint)}
+.meta b{color:var(--ink-2);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{font-size:12.5px;padding:3px 11px;border-radius:99px;background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent-line);font-weight:600}
+
+/* progress */
+.railbar{position:-webkit-sticky;position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.railbar .inner{max-width:760px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px}
+.track{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.fill{height:100%;width:0;background:var(--accent);transition:width .25s ease}
+.count{font-size:13px;color:var(--muted);white-space:nowrap}
+
+/* cards */
+.card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:18px 18px;margin-top:16px;box-shadow:var(--shadow)}
+.card h2{font-size:17px;margin:0 0 6px;line-height:1.4}
+.card .cap{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+.note p{margin:0 0 8px;color:var(--ink-2);font-size:14.5px}
+.note p:last-child{margin-bottom:0}
+
+.field{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+.field label{flex:1 1 200px;display:block;font-size:13px;color:var(--muted)}
+.field input{width:100%;margin-top:5px;padding:11px 12px;border:1px solid var(--line-2);border-radius:9px;background:var(--surface);color:var(--ink);font:inherit;font-size:16px;-webkit-appearance:none;appearance:none}
+.field input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+
+/* questions */
+.qhead{margin:34px 2px 4px;font-size:13px;letter-spacing:.06em;color:var(--faint);font-weight:600}
+.q{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:16px 16px 14px;margin-top:12px;box-shadow:var(--shadow);scroll-margin-top:64px}
+.q.missing{border-color:var(--alert);background:var(--alert-soft)}
+.qtag{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--accent);font-weight:700}
+.qtag .of{color:var(--faint);font-weight:500}
+.quote{display:block;margin:10px 0 0;padding:11px 13px;border-left:3px solid var(--accent-line);background:var(--surface-2);border-radius:0 8px 8px 0;font-size:15px;color:var(--ink-2);line-height:1.75}
+.ask{margin-top:12px;font-weight:600;color:var(--ink);font-size:15.5px}
+.opts{margin-top:12px}
+.opts input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.opts label{display:flex;gap:11px;align-items:flex-start;padding:12px 13px;margin-top:8px;border:1.5px solid var(--line-2);border-radius:10px;cursor:pointer;background:var(--surface);font-size:15px;line-height:1.65;transition:background .12s,border-color .12s}
+.opts .k{flex:0 0 auto;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line-2);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--faint);margin-top:1px}
+.opts input:checked + label{border-color:var(--accent);background:var(--accent-soft)}
+.opts input:checked + label .k{background:var(--accent);border-color:var(--accent);color:#fff}
+.opts input:focus-visible + label{outline:2px solid var(--accent);outline-offset:2px}
+@media (hover:hover){ .opts label:hover{border-color:var(--accent-line)} }
+
+/* buttons */
+.actions{margin-top:26px}
+button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid transparent;padding:13px 20px;font-size:16px;font-weight:600;-webkit-appearance:none;appearance:none}
+.btn-primary{display:block;width:100%;background:var(--accent);color:#fff}
+.btn-primary:active{filter:brightness(.92)}
+.btn-ghost{background:var(--surface);color:var(--ink-2);border-color:var(--line-2);font-weight:500}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn-row button{flex:1 1 160px}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hint{display:block;margin-top:10px;font-size:14px;color:var(--alert);text-align:center}
+
+/* report: score card */
+.scorecard{border-radius:14px;background:var(--accent);color:#fff;padding:22px 20px 20px;margin-top:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.scorecard .who{font-size:13.5px;opacity:.85;display:flex;flex-wrap:wrap;gap:2px 14px}
+.scorecard .big{display:flex;align-items:flex-end;gap:8px;margin-top:10px}
+.scorecard .score{font-size:68px;line-height:.95;font-weight:700;letter-spacing:-.03em}
+.scorecard .unit{font-size:18px;font-weight:600;padding-bottom:6px}
+.scorecard .full{font-size:14px;opacity:.75;padding-bottom:7px}
+.scorecard .lv{display:inline-block;margin-top:14px;padding:4px 13px;border-radius:99px;background:rgba(255,255,255,.18);font-size:15px;font-weight:700}
+.scorecard .lvsub{margin:8px 0 0;font-size:14.5px;opacity:.92}
+.scorecard .foot{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.22);font-size:12.5px;opacity:.78;display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px}
+:root[data-theme="dark"] .scorecard,
+:root:not([data-theme="light"]) .scorecard{color:#fff}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .scorecard{background:#2B3778} }
+:root[data-theme="dark"] .scorecard{background:#2B3778}
+
+/* judgment */
+.judge p{margin:0 0 10px;color:var(--ink-2);font-size:15px}
+.judge p:last-child{margin-bottom:0}
+.judge b{color:var(--ink)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 12px}
+.t{font-size:13px;padding:2px 10px;border-radius:99px;font-weight:600;border:1px solid}
+.t.g{color:var(--good);background:var(--good-soft);border-color:var(--good-line)}
+.t.w{color:var(--warn);background:var(--warn-soft);border-color:var(--warn-line)}
+.t.a{color:var(--alert);background:var(--alert-soft);border-color:var(--alert-line)}
+
+/* six dims */
+.mrow{display:grid;grid-template-columns:72px 52px 1fr;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.mrow:last-child{border-bottom:0}
+.mrow .nm{font-size:15px;font-weight:700}
+.dots{display:flex;gap:6px}
+.dot{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line-2)}
+.dot.hit{background:var(--good);border-color:var(--good)}
+.dot.miss{background:var(--alert-soft);border-color:var(--alert)}
+.mrow .ds{font-size:13px;color:var(--muted);line-height:1.5}
+.mrow .ds b{display:block;font-size:13.5px}
+.mrow.s2 .ds b{color:var(--good)}
+.mrow.s1 .ds b{color:var(--warn)}
+.mrow.s0 .ds b{color:var(--alert)}
+
+/* advice */
+.adv{border:1px solid var(--alert-line);background:var(--alert-soft);border-radius:12px;padding:18px;margin-top:16px}
+.adv.mild{border-color:var(--warn-line);background:var(--warn-soft)}
+.adv.top{border-color:var(--good-line);background:var(--good-soft)}
+.adv .tag{font-size:12.5px;letter-spacing:.08em;font-weight:700;color:var(--alert)}
+.adv.mild .tag{color:var(--warn)}
+.adv.top .tag{color:var(--good)}
+.adv h3{font-size:18px;margin:6px 0 6px}
+.adv p{margin:0 0 10px;color:var(--ink-2);font-size:14.5px}
+.adv ol{margin:0;padding-left:20px;color:var(--ink-2);font-size:14.5px}
+.adv li{margin-bottom:7px}
+.adv li:last-child{margin-bottom:0}
+.adv li b{color:var(--ink)}
+.general{margin-top:16px}
+.general ul{margin:0;padding-left:20px;color:var(--ink-2);font-size:14.5px}
+.general li{margin-bottom:6px}
+
+/* review */
+.revbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.seg{display:flex;border:1px solid var(--line-2);border-radius:9px;overflow:hidden}
+.seg button{border:0;border-radius:0;padding:7px 14px;font-size:14px;font-weight:600;background:var(--surface);color:var(--muted)}
+.seg button.on{background:var(--accent);color:#fff}
+.rev{border:1px solid var(--line);border-radius:11px;background:var(--surface);margin-top:12px;overflow:hidden}
+.rev.wrong{border-color:var(--alert-line)}
+.rev .rh{display:flex;gap:10px;align-items:center;padding:11px 14px;background:var(--good-soft)}
+.rev.wrong .rh{background:var(--alert-soft)}
+.mark{flex:0 0 auto;font-size:12.5px;font-weight:700;padding:1px 10px;border-radius:99px;color:#fff;background:var(--good)}
+.rev.wrong .mark{background:var(--alert)}
+.rev .rt{font-size:14.5px;font-weight:700}
+.rev .dimtag{margin-left:auto;font-size:12.5px;color:var(--muted)}
+.rev .rb{padding:12px 14px 14px;font-size:14.5px;color:var(--ink-2)}
+.rev .rq{margin:0 0 10px;padding:9px 12px;background:var(--surface-2);border-radius:8px;font-size:14px;color:var(--muted)}
+.rev .line{margin:0 0 6px}
+.rev .line b{color:var(--ink)}
+.rev .yours.bad{color:var(--alert)}
+.rev .yours.ok{color:var(--good)}
+.rev .why{margin:10px 0 0;padding-top:10px;border-top:1px dashed var(--line-2)}
+.rev .why b{color:var(--ink)}
+.rev .trap{margin:8px 0 0;color:var(--muted);font-size:14px}
+
+footer{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-size:12.5px;color:var(--faint);line-height:1.6}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (min-width:640px){
+  .wrap{padding-left:24px;padding-right:24px}
+  .card,.q{padding:22px 24px 18px}
+  h1{font-size:30px}
+  .btn-primary{width:auto;min-width:240px;display:inline-block}
+  .mrow{grid-template-columns:84px 56px 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="eyebrow">人工智能规划理论与应用 · 课堂测评</div>
+    <h1>批判性思维技能测验</h1>
+    <p class="sub">考的不是专业知识，而是你怎么处理信息、证据和推理</p>
+    <div class="chips"><span class="chip">12 道单选</span><span class="chip">满分 100 分</span><span class="chip">约 12 分钟</span></div>
+    <div class="meta"><span>福建理工大学 建筑与城乡规划学院</span><span>授课教师：<b>曹风晓</b></span></div>
+  </div>
+</header>
+
+<!-- ============ 答题 ============ -->
+<main id="quizView">
+  <div class="railbar"><div class="inner">
+    <div class="track"><div class="fill" id="fill"></div></div>
+    <div class="count num" id="count">已答 0 / 12</div>
+  </div></div>
+
+  <div class="wrap">
+    <section class="card note">
+      <h2>作答说明</h2>
+      <p>每道题<b>只有一个</b>最佳答案。前 6 题是日常情境，后 6 题是规划工作场景。</p>
+      <p>凭你的第一判断作答，不要查资料，也不要问 AI。交卷后会立刻给出<b>分数、每道题的解析、你的能力判断和练习建议</b>。</p>
+      <p>答错很正常——<b>这份测验的价值就在错题上</b>。</p>
+      <div class="field">
+        <label for="stuName">姓名<input id="stuName" type="text" autocomplete="off" placeholder="选填"></label>
+        <label for="stuId">学号<input id="stuId" type="text" autocomplete="off" inputmode="numeric" placeholder="选填"></label>
+      </div>
+    </section>
+
+    <div id="questions"></div>
+
+    <div class="actions">
+      <button class="btn-primary" id="submitBtn" type="button">交卷，查看成绩</button>
+      <span class="hint" id="hint" hidden></span>
+    </div>
+
+    <footer>本测验题目为本课自编原创情境题，按德尔斐共识报告（Delphi Consensus Report）提出的六项批判性思维核心技能设计，每项 2 题。仅用于课堂教学。</footer>
+  </div>
+</main>
+
+<!-- ============ 结果 ============ -->
+<main id="reportView" hidden>
+  <div class="wrap">
+
+    <section class="scorecard" aria-label="成绩">
+      <div class="who" id="rWho"></div>
+      <div class="big"><span class="score num" id="rScore">0</span><span class="unit">分</span><span class="full">/ 100</span></div>
+      <div class="lv" id="rLevel"></div>
+      <p class="lvsub" id="rLevelSub"></p>
+      <div class="foot"><span id="rRight"></span><span id="rTime"></span></div>
+    </section>
+
+    <section class="card judge">
+      <h2>你的批判性思维能力判断</h2>
+      <div class="tags" id="rTags"></div>
+      <div id="rJudge"></div>
+    </section>
+
+    <section class="card">
+      <h2>六项核心技能上的表现</h2>
+      <p class="cap">每项 2 题。绿色实心＝答对，红色描边＝答错。</p>
+      <div id="matrix"></div>
+    </section>
+
+    <div id="advice"></div>
+
+    <section class="card general">
+      <h2>给你的三条通用建议</h2>
+      <ul id="general"></ul>
+    </section>
+
+    <section class="card">
+      <div class="revbar">
+        <h2 style="margin:0">逐题解析</h2>
+        <div class="seg" role="group" aria-label="筛选">
+          <button type="button" id="fWrong" class="on">只看错题</button><button type="button" id="fAll">全部 12 题</button>
+        </div>
+      </div>
+      <p class="cap" style="margin-top:8px" id="revCap"></p>
+      <div id="review"></div>
+    </section>
+
+    <div class="btn-row">
+      <button class="btn-ghost" id="topBtn" type="button">回到成绩</button>
+      <button class="btn-ghost" id="againBtn" type="button">清空并重新作答</button>
+    </div>
+
+    <footer>如老师要求提交成绩，请截图本页顶部的成绩卡。本测验为课堂教学用自编题，结果仅供自我诊断参考，不代表标准化测评结论。</footer>
+  </div>
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  var DIMS=[
+    {k:"解读", d:"准确读出材料到底主张了什么"},
+    {k:"分析", d:"区分论点、论据与隐含假设"},
+    {k:"评估", d:"判断证据的可信度与代表性"},
+    {k:"推理", d:"从证据推出结论，识别推理跳跃"},
+    {k:"说明", d:"讲得出可检验的依据，而不只是给结论"},
+    {k:"自我校准", d:"发现并修正自己先前的判断"}
+  ];
+
+  var Q=[
+  { d:0, scene:"日常",
+    quote:"过去五年，本市开通共享单车接驳的地铁站，早高峰进站客流平均增长 12%；未开通接驳的站点平均增长 4%。",
+    ask:"这段话<b>直接支持</b>下面哪一个说法？",
+    o:["共享单车接驳使地铁早高峰客流增长",
+       "开通接驳的站点，早高峰客流增速高于未开通的站点",
+       "本市早高峰地铁客流整体增长了 12%",
+       "未开通接驳的站点，早高峰客流在下降"],
+    a:1,
+    why:"原文只陈述了两组站点<b>增速的差异</b>，没有说明差异从何而来。A 把相关读成了因果；C 把其中一组的数字当成了全市整体；D 看错方向——4% 仍然是增长。",
+    trap:"A 是最多人选的。把「同时发生」读成「因此发生」，是解读环节最常见的失手。" },
+
+  { d:1, scene:"日常",
+    quote:"我们应该把公司的例会全部改到线上——去年改成线上之后，会议平均时长从 52 分钟降到了 31 分钟。",
+    ask:"这个论证<b>必须默认</b>下面哪一条成立，结论才站得住？",
+    o:["公司的网络和设备条件已经足够成熟",
+       "会议时间缩短意味着会议变得更好",
+       "所有员工都支持改到线上",
+       "线上会议的综合成本比线下更低"],
+    a:1,
+    why:"论据是「时长缩短」，结论是「应该这么做」。中间必须有一步<b>价值判断</b>：短＝好。如果会议变短是因为讨论不充分、决策被推迟，同一条论据反而支持相反的结论。",
+    trap:"A、C、D 都是「有了更好」的条件，但结论不依赖它们；B 是不说出来结论就垮掉的那一条——这才叫隐含假设。" },
+
+  { d:2, scene:"日常",
+    quote:"某运动类 App 发布报告：我们对平台上 5 万名用户做了问卷，87% 的人表示每周至少运动三次，说明全国居民的运动习惯已显著改善。",
+    ask:"这个结论最主要的问题是什么？",
+    o:["样本全部来自运动类 App 的用户，无法代表全国居民",
+       "5 万人的样本量不足以代表全国",
+       "「每周三次」的标准定得太低",
+       "问卷没有区分不同年龄和性别"],
+    a:0,
+    why:"这是典型的<b>样本自选择</b>：会下载并使用运动 App 的人，本来就比一般人更爱运动。结论要推广到「全国居民」，样本却来自一个高度偏倚的群体。",
+    trap:"B 很有迷惑性。5 万在抽样调查里已经是很大的样本——<b>样本的代表性问题，不是靠加大样本量能解决的</b>。" },
+
+  { d:3, scene:"日常",
+    quote:"某平台的推荐规则写道：被判定为优质内容的帖子，都会被推荐到首页。今天，你的帖子出现在了首页。",
+    ask:"由此可以推出什么？",
+    o:["你的帖子被判定为优质内容",
+       "你的帖子没有被判定为优质内容",
+       "无法确定——上首页还可能有别的来源，比如广告位或运营置顶",
+       "平台的推荐规则被违反了"],
+    a:2,
+    why:"规则说的是「优质 → 上首页」，不是「上首页 → 优质」。看到结果就反推原因，是<b>肯定后件</b>的错误：除非规则同时声明「只有优质内容才会上首页」，否则上首页的路径可能不止一条。",
+    trap:"A 读起来非常自然，这正是它危险的地方。AI 给出的解释里，这种「倒过来推」出现得极其频繁。" },
+
+  { d:4, scene:"日常",
+    quote:"针对同一个方案，四位同学都给出了「这个方案不可行」的结论。",
+    ask:"哪一位的表述真正完成了「说明」这个动作？",
+    o:["「我觉得不可行，直觉告诉我有问题。」",
+       "「老师之前也说过，类似的方案行不通。」",
+       "「方案要求三年内完工，但同类项目最快也要五年，而方案里没有说明工期怎么压缩。」",
+       "「我问了一圈，大家都觉得不可行。」"],
+    a:2,
+    why:"说明＝给出<b>可以被检验、也可以被反驳</b>的理由。C 摆出了具体证据（同类项目工期）和缺口（方案未回应工期压缩），别人可以拿数据来推翻它。",
+    trap:"A 是直觉，B 是诉诸权威，D 是诉诸众人——三者都可能碰巧正确，但都没给出能被检验的东西。" },
+
+  { d:5, scene:"日常",
+    quote:"你上周在组会上汇报了结论 A。这周你发现，当时用的数据里有一个字段的单位搞错了；重新计算后，结论变成了 B。",
+    ask:"最恰当的做法是：",
+    o:["这周主动说明：上周的结论有误、错在哪里、更正后的结论是 B",
+       "这周直接讲 B，不必提上周的事",
+       "等导师问起再解释",
+       "同时保留 A 和 B，说明「两种可能都存在」"],
+    a:0,
+    why:"自我校准不只是「改对」，还包括<b>让依赖过你结论的人知道它变了</b>。组会上已经有人拿着 A 往下走了。",
+    trap:"D 最需要警惕：错误已经被定位，却包装成「保留两种可能」，这不是严谨，是回避。" },
+
+  { d:0, scene:"规划",
+    quote:"某片区规划文本写道：本片区应适度提高开发强度，优化用地结构，营造高品质空间环境。",
+    ask:"下面哪一句<b>最准确</b>地指出了这段表述的问题？",
+    o:["「适度」「优化」「高品质」都没有给出可核验的标准，无法判断是否达成",
+       "这段表述违反了国土空间规划的强制性内容要求",
+       "提高开发强度必然会加剧本片区的交通压力",
+       "这段表述应当改为「大幅提高开发强度」"],
+    a:0,
+    why:"解读的第一步是<b>把模糊词换成可核验的说法</b>。容积率提到多少？用地结构调整哪几类、各调多少？说不出来，这句话就无法被检验，也无法被追责。",
+    trap:"C 看起来很专业，但它是在提出一个<b>新论断</b>（而且未必成立），不是在指出原文的问题。评论材料时跑去论证自己的观点，是解读题最常见的偏题方式。" },
+
+  { d:1, scene:"规划",
+    quote:"某汇报中说：本片区 15 分钟生活圈设施覆盖率仅 62%，低于全市 78% 的平均水平，因此应优先在本片区新增社区服务设施。",
+    ask:"下面哪一项是这段论证的<b>论据</b>（而非论点或隐含假设）？",
+    o:["应优先在本片区新增社区服务设施",
+       "覆盖率 62%，低于全市平均的 78%",
+       "覆盖率低的片区，理应被优先补齐",
+       "新增设施能够有效提高覆盖率"],
+    a:1,
+    why:"A 是论点（要得出的主张），B 是论据（拿来支撑的事实），C 和 D 是隐含假设（没说出口、但必须成立）。<b>能把这几样分开，就是「分析」这项技能的核心。</b>",
+    trap:"C 尤其值得注意：「低于平均就该优先补」听上去天经地义，但它是一个<b>资源分配的价值判断</b>——如果该片区人口正在快速流失，这条假设就未必成立。" },
+
+  { d:2, scene:"规划",
+    quote:"你让 AI 写一段某县城的人口分析，它给出：该县 2023 年常住人口 38.6 万人，较 2010 年下降 11.2%，城镇化率 52.4%。",
+    ask:"在把这段话写进你的论文之前，<b>最关键</b>的一步是什么？",
+    o:["核对这三个数字在统计年鉴或普查公报中的原始出处",
+       "让 AI 再生成一遍，看两次结果是否一致",
+       "换一个模型问同样的问题，看结论是否吻合",
+       "把数字改成约数，避免出错"],
+    a:0,
+    why:"评估证据看的是<b>证据本身的来源</b>，不是它被重复了几次。语言模型的数字可能是生成的，前后一致只说明它稳定，不说明它正确。",
+    trap:"B 和 C 是最常见的「假核验」——两个模型可能读了同一批有误的语料，一起错得一模一样。D 是把问题藏起来，不是解决它。" },
+
+  { d:3, scene:"规划",
+    quote:"某汇报的推理链是：① 本片区 60 岁以上人口占 28%；② 老年人的日常出行半径较短；③ 因此应在本片区增设老年活动中心。",
+    ask:"这条推理中，<b>最需要补充证据</b>的是哪一步？",
+    o:["① 到 ② 之间",
+       "② 到 ③ 之间",
+       "① 本身的数据口径",
+       "这条推理是完整的，不需要补充"],
+    a:1,
+    why:"① 和 ② 都成立，也能接上：老年人多、出行半径短，所以设施要就近。但「就近需要」推不出「需要<b>新增</b>」——中间缺了一环：<b>本片区现状的老年设施供给是否已经不足</b>。如果既有设施尚有余量，正确的动作是改造提升，不是新建。",
+    trap:"D 是最危险的选项。这条推理读起来非常顺，而顺，恰恰是推理跳跃最好的伪装。" },
+
+  { d:4, scene:"规划",
+    quote:"在三个方案的比选汇报中，四位同学分别做了如下说明。",
+    ask:"哪一种说法最能体现专业判断？",
+    o:["「我们选了方案二，因为它综合起来最优。」",
+       "「方案一造价最低但占用了现状水系；方案三保留了水系，但拆迁量增加约 40%。我们把水系保护排在造价之前，所以选方案二。」",
+       "「三个方案我们都做了详细比较，最后综合考虑，选择方案二。」",
+       "「方案二是甲方倾向的方案，所以我们选它。」"],
+    a:1,
+    why:"专业判断的核心不是结论，是<b>把取舍的排序讲出来</b>。B 说清了三件事：每个方案付出了什么代价、自己按什么标准排序、因此选了谁。别人可以不同意这个排序——这正是它专业的地方，因为它<b>可被协商</b>。",
+    trap:"A 和 C 用「综合」「最优」把判断过程整个盖住了，等于没说；D 交代的是来源，不是理由。" },
+
+  { d:5, scene:"规划",
+    quote:"你把自己的分析交给 AI 审查，它回复：你的分析思路清晰、方法得当、结论可靠，是一份高质量的工作。",
+    ask:"这时<b>最有价值</b>的下一步是：",
+    o:["把这段评价保存下来，作为方法可靠的佐证",
+       "换一个问法：请它找出这份分析最可能被审稿人攻击的三个点，并说明理由",
+       "再问一遍，看它是否仍给出同样的评价",
+       "换一个模型问同样的问题，看两边是否一致"],
+    a:1,
+    why:"模型倾向于顺着你说话——你问「好不好」，它大概率答「好」。要拿到有用的信息，必须<b>改变提问的方向</b>，让它站到你的对立面去找漏洞。",
+    trap:"AI 的问题往往不是它做不到，而是它<b>太顺从</b>。顺从的审查者，等于没有审查者。" }
+  ];
+
+  /* 等级（百分制） */
+  var LEVELS=[
+    {min:90, n:"优秀", s:"六项核心技能都稳",
+     j:"你不只是「会怀疑」，而是能准确指出问题出在哪一步。面对包装得很专业、读起来很顺的论述，你基本都能识破。"},
+    {min:75, n:"良好", s:"主干扎实，个别环节会跳步",
+     j:"大部分包装过的错误你都识破了。失分通常集中在一两项技能上——把它们补上，你的判断会稳定很多。"},
+    {min:50, n:"中等", s:"能识破明显的问题，包装过的会失手",
+     j:"明显的谬误你抓得住，但当错误被写得很顺、很专业时，就容易放过。要记住：<b>顺畅是表达能力，不是论证强度。</b>"},
+    {min:0,  n:"待提升", s:"目前更多凭直觉判断",
+     j:"现在你更多是凭直觉在判断。这不是能力问题，而是还没被系统训练过——六项技能都是可以练出来的。"}
+  ];
+
+  var ADVICE={
+    "解读":{why:"你在「把话读准」这一步失分。很多误判不是推理错了，而是一开始就读错了对方到底在主张什么。",
+      acts:["读完任何材料，先用<b>一句话</b>写下它的核心主张，再回头核对——写不出来，说明还没读懂。",
+            "遇到「适度」「优化」「高品质」这类词，当场追问：<b>在这句话里它具体指什么？</b>把它换成可核验的说法。",
+            "把「相关」和「因果」当成两个词来读：原文说 A 和 B 一起变，就不要读成 A 导致 B。"]},
+    "分析":{why:"你容易被写得顺、举了例子的论述说服，而没有看清它的结构。",
+      acts:["拿到一个结论，先把三样东西分开写：<b>论点、论据、没说出口的前提</b>。第三样最关键。",
+            "问自己一句：「要让这个结论成立，作者<b>必须默认</b>什么是真的？」——这是找隐含假设的开关。",
+            "在方案比选里练：每个优劣判断背后都压着一个价值排序，把它写出来。"]},
+    "评估":{why:"你对证据本身的把关偏松。在 AI 生成内容越来越多的环境里，这是最容易出事的一环。",
+      acts:["看到数字先查三样：<b>出处、时间、统计口径</b>。缺一样，它就只能当参考，不能当依据。",
+            "记住：<b>样本的代表性问题，加大样本量解决不了</b>。先问「这批样本是谁」。",
+            "对 AI 给出的数据，不要用「再问一遍」来核验——去核原始出处，哪怕只核一个数。"]},
+    "推理":{why:"你在「从证据到结论」这一段容易跨步。最常见的两种：由结果反推原因，以及把「有需要」直接读成「要新建」。",
+      acts:["看到「如果 A 则 B」，不要反过来用：B 发生了，不等于 A 成立。",
+            "把推理拆成编号的步骤，逐步问：<b>这一步换成别的结论，行不行？</b>行，就说明这一步缺证据。",
+            "对你自己最赞同的结论，检查得更严一点——确认偏误对聪明人同样有效。"]},
+    "说明":{why:"你可能判断得不错，但讲不出依据。在规划这一行，讲不出依据的判断等于没有判断，因为它无法被讨论和协商。",
+      acts:["把「我觉得」换成「<b>基于……，所以……</b>」，中间填你真正用到的证据。",
+            "主动说出<b>你放弃了哪些方案、按什么标准放弃</b>——取舍排序比结论更能体现专业性。",
+            "警惕「综合考虑」「统筹兼顾」这类词：它们往往是把判断过程盖住了，而不是说明了它。"]},
+    "自我校准":{why:"这是六项里最难的一项：它要的不只是方法，还有承认自己错了的意愿——而这恰恰是 AI 无法替你完成的部分。",
+      acts:["结论变了就<b>说出口</b>，并说明是什么证据让你改的——这是专业能力，不是认输。",
+            "不要问 AI「我做得好不好」，要问「<b>这份东西最可能被攻击的三个点是什么</b>」。",
+            "每次交稿前问自己一句：<b>如果我错了，最可能错在哪里？</b>"]}
+  };
+
+  var GENERAL={
+    "优秀":["把同样的严格用在<b>你最赞同的结论</b>上——确认偏误对高分的人同样有效。",
+            "用 AI 时，别问「我做得好不好」，问「<b>这份东西最可能被攻击的三个点是什么</b>」。",
+            "在组会和汇报里练「说明」：<b>把取舍的排序讲出来</b>，让别人有机会反对你。"],
+    "良好":["回到你答错的题，弄清楚<b>错在哪一步</b>，而不只是记住正确答案。",
+            "读材料时养成一个动作：先写下对方的核心主张，再判断它站不站得住。",
+            "用 AI 写东西时，把它给的每一个数字都当成「待核实」，至少核一个原始出处。"],
+    "中等":["每次下结论前，强迫自己回答两个问题：<b>依据是什么？出处在哪？</b>",
+            "特别留意读起来很顺、很专业的论述——越顺，越要拆开看每一步。",
+            "从你最弱的那一项开始练，每周找一段新闻或规划文本，按上面的方法拆一遍。"],
+    "待提升":["从最简单的一条开始：任何结论，先问「<b>依据是什么、出处在哪</b>」。",
+            "把这 12 道题的解析从头到尾读一遍，重点看「常见误选」——那是最常见的思维陷阱。",
+            "下次用 AI 时，不要直接采用它的结论，先找出它<b>没有说明依据</b>的地方。"]
+  };
+
+  var KEY=["A","B","C","D"];
+  var STORE="ct12web_v1";
+  function $(i){return document.getElementById(i);}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function upTo(el,cls){ while(el&&el!==document.body){ if(el.classList&&el.classList.contains(cls)) return el; el=el.parentNode; } return null; }
+  function save(o){ try{ localStorage.setItem(STORE,JSON.stringify(o)); }catch(e){} }
+  function load(){ try{ return JSON.parse(localStorage.getItem(STORE)||"null"); }catch(e){ return null; } }
+  function clearStore(){ try{ localStorage.removeItem(STORE); }catch(e){} }
+
+  /* ---------- render questions ---------- */
+  var html="", last="";
+  for(var i=0;i<Q.length;i++){
+    var q=Q[i];
+    if(q.scene!==last){
+      html+='<div class="qhead">'+(q.scene==="日常"?"第一部分 · 日常情境（第 1—6 题）":"第二部分 · 规划工作场景（第 7—12 题）")+'</div>';
+      last=q.scene;
+    }
+    html+='<section class="q" id="q'+i+'"><div class="qtag">第 '+(i+1)+' 题<span class="of">/ 12</span></div>'+
+          '<span class="quote">'+q.quote+'</span><div class="ask">'+q.ask+'</div>'+
+          '<div class="opts" role="radiogroup" aria-label="第'+(i+1)+'题">';
+    for(var v=0;v<4;v++){
+      var id="i"+i+"o"+v;
+      html+='<input type="radio" name="item'+i+'" id="'+id+'" value="'+v+'">'+
+            '<label for="'+id+'"><span class="k">'+KEY[v]+'</span><span>'+q.o[v]+'</span></label>';
+    }
+    html+='</div></section>';
+  }
+  $("questions").innerHTML=html;
+
+  function answers(){
+    var a=[];
+    for(var i=0;i<12;i++){ var el=document.querySelector('input[name="item'+i+'"]:checked'); a.push(el?parseInt(el.value,10):-1); }
+    return a;
+  }
+  function progress(){
+    var a=answers(), n=0; for(var i=0;i<12;i++) if(a[i]>=0) n++;
+    $("fill").style.width=(n/12*100)+"%";
+    $("count").textContent="已答 "+n+" / 12";
+    save({a:a,n:$("stuName").value,s:$("stuId").value,done:false});
+    return n;
+  }
+  $("questions").addEventListener("change",function(e){
+    var t=e.target;
+    if(t&&t.name&&t.name.indexOf("item")===0){
+      var c=upTo(t,"q"); if(c) c.classList.remove("missing");
+      var left=12-progress();
+      if(!$("hint").hidden){ if(left>0) $("hint").textContent="还有 "+left+" 题没有作答"; else $("hint").hidden=true; }
+    }
+  });
+  $("stuName").addEventListener("input",progress);
+  $("stuId").addEventListener("input",progress);
+
+  /* ---------- grading ---------- */
+  function grade(a){
+    var hits=[],dim=[0,0,0,0,0,0],right=0;
+    for(var i=0;i<12;i++){ var ok=a[i]===Q[i].a; hits.push(ok); if(ok){right++;dim[Q[i].d]++;} }
+    return {hits:hits,dim:dim,right:right,score:Math.round(right*100/12)};
+  }
+  function levelOf(s){ for(var i=0;i<LEVELS.length;i++) if(s>=LEVELS[i].min) return LEVELS[i]; return LEVELS[3]; }
+  function pad(n){return n<10?"0"+n:""+n;}
+  function stamp(t){ var d=new Date(t); return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+" "+pad(d.getHours())+":"+pad(d.getMinutes()); }
+
+  /* ---------- submit ---------- */
+  $("submitBtn").addEventListener("click",function(){
+    var a=answers(), first=-1, left=0;
+    for(var i=0;i<12;i++){ var c=$("q"+i);
+      if(a[i]<0){ c.classList.add("missing"); left++; if(first<0) first=i; } else c.classList.remove("missing"); }
+    if(first>=0){
+      $("hint").textContent="还有 "+left+" 题没有作答，已为你定位到第 "+(first+1)+" 题";
+      $("hint").hidden=false;
+      $("q"+first).scrollIntoView({behavior:"smooth",block:"start"});
+      return;
+    }
+    $("hint").hidden=true;
+    var rec={a:a,n:$("stuName").value.trim(),s:$("stuId").value.trim(),done:true,t:Date.now()};
+    save(rec);
+    report(rec);
+  });
+
+  /* ---------- report ---------- */
+  var filterWrong=true, lastRec=null;
+
+  function report(rec){
+    lastRec=rec;
+    var a=rec.a, g=grade(a), L=levelOf(g.score);
+
+    var who=[];
+    who.push(rec.n?esc(rec.n):"同学");
+    if(rec.s) who.push("学号 "+esc(rec.s));
+    $("rWho").innerHTML="<span>"+who.join("</span><span>")+"</span>";
+    $("rScore").textContent=g.score;
+    $("rLevel").textContent="批判性思维技能 · "+L.n;
+    $("rLevelSub").textContent=L.s;
+    $("rRight").textContent="答对 "+g.right+" / 12 题";
+    $("rTime").textContent="提交于 "+stamp(rec.t||Date.now());
+
+    /* 分组 */
+    var strong=[],shaky=[],weak=[];
+    for(var i=0;i<6;i++){ (g.dim[i]===2?strong:g.dim[i]===1?shaky:weak).push(DIMS[i].k); }
+
+    var tags="";
+    if(strong.length) tags+='<span class="t g">掌握：'+strong.join("、")+'</span>';
+    if(shaky.length)  tags+='<span class="t w">不稳定：'+shaky.join("、")+'</span>';
+    if(weak.length)   tags+='<span class="t a">薄弱：'+weak.join("、")+'</span>';
+    $("rTags").innerHTML=tags;
+
+    var j='<p>你的批判性思维技能测验得分为 <b>'+g.score+' 分</b>，处于<b>「'+L.n+'」</b>水平。'+L.j+'</p>';
+    if(strong.length===6){
+      j+='<p>六项核心技能全部答对。这份测验已经问不出你的短板了——接下来的难处不在方法，而在于：<b>当结论符合你自己的立场时，你还愿不愿意同样严格。</b></p>';
+    } else {
+      var parts=[];
+      if(strong.length) parts.push('你在<b>'+strong.join("、")+'</b>上表现稳定');
+      if(shaky.length)  parts.push('<b>'+shaky.join("、")+'</b>时对时错，说明方法知道、但还没形成习惯');
+      if(weak.length)   parts.push('<b>'+weak.join("、")+'</b>两题都失分，是你现在<b>最需要优先练习</b>的环节');
+      j+='<p>'+parts.join("；")+'。</p>';
+    }
+    $("rJudge").innerHTML=j;
+
+    /* 六项矩阵 */
+    var m="";
+    for(var i=0;i<6;i++){
+      var dots="";
+      for(var k=0;k<12;k++) if(Q[k].d===i) dots+='<span class="dot '+(g.hits[k]?"hit":"miss")+'" title="第'+(k+1)+'题"></span>';
+      var st=g.dim[i], lab=st===2?"掌握":st===1?"不稳定":"薄弱";
+      m+='<div class="mrow s'+st+'"><span class="nm">'+DIMS[i].k+'</span><span class="dots">'+dots+'</span>'+
+         '<span class="ds"><b>'+lab+'（'+st+' / 2）</b>'+DIMS[i].d+'</span></div>';
+    }
+    $("matrix").innerHTML=m;
+
+    /* 针对性建议：优先薄弱项，其次不稳定项，最多两项 */
+    var focus=weak.concat(shaky).slice(0,2), adv="";
+    if(!focus.length){
+      adv='<section class="adv top"><div class="tag">针对性建议</div><h3>六项都没有失分</h3>'+
+          '<p>比起再做一份测验，下面这些更能让你继续进步。</p></section>';
+    } else {
+      for(var f=0;f<focus.length;f++){
+        var name=focus[f], A=ADVICE[name], isWeak=weak.indexOf(name)>=0, idx=0;
+        for(var x=0;x<6;x++) if(DIMS[x].k===name) idx=x;
+        adv+='<section class="adv'+(isWeak?"":" mild")+'"><div class="tag">'+(f===0?"最需要练的技能":"其次要练的技能")+'</div>'+
+             '<h3>'+name+'　<span class="num" style="font-size:15px">'+g.dim[idx]+' / 2</span></h3>'+
+             '<p>'+A.why+'</p><ol><li>'+A.acts.join("</li><li>")+'</li></ol></section>';
+      }
+    }
+    $("advice").innerHTML=adv;
+    $("general").innerHTML="<li>"+GENERAL[L.n].join("</li><li>")+"</li>";
+
+    filterWrong = g.right<12;
+    renderReview();
+
+    $("quizView").hidden=true; $("reportView").hidden=false;
+    window.scrollTo(0,0);
+  }
+
+  function renderReview(){
+    var a=lastRec.a, g=grade(a), r="", wrongN=12-g.right;
+    $("fWrong").className=filterWrong?"on":""; $("fAll").className=filterWrong?"":"on";
+    $("revCap").textContent = filterWrong
+      ? (wrongN? "你答错了 "+wrongN+" 题。先弄清楚错在哪一步，比记住答案更重要。" : "你没有答错的题。")
+      : "全部 12 题的答案与解析。";
+    for(var i=0;i<12;i++){
+      var q=Q[i], ok=g.hits[i];
+      if(filterWrong&&ok) continue;
+      r+='<div class="rev '+(ok?"right":"wrong")+'"><div class="rh">'+
+         '<span class="mark">'+(ok?"答对":"答错")+'</span><span class="rt">第 '+(i+1)+' 题</span>'+
+         '<span class="dimtag">'+DIMS[q.d].k+'</span></div><div class="rb">'+
+         '<p class="rq">'+q.quote+'</p>'+
+         '<p class="line"><b>你的选择：</b><span class="yours '+(ok?"ok":"bad")+'">'+KEY[a[i]]+'. '+esc(q.o[a[i]])+'</span></p>'+
+         (ok?'':'<p class="line"><b>正确答案：</b>'+KEY[q.a]+'. '+esc(q.o[q.a])+'</p>')+
+         '<p class="why"><b>解析：</b>'+q.why+'</p>'+
+         '<p class="trap"><b>常见误选：</b>'+q.trap+'</p>'+
+         '</div></div>';
+    }
+    $("review").innerHTML=r;
+  }
+  $("fWrong").addEventListener("click",function(){ filterWrong=true; renderReview(); });
+  $("fAll").addEventListener("click",function(){ filterWrong=false; renderReview(); });
+  $("topBtn").addEventListener("click",function(){ window.scrollTo(0,0); });
+  $("againBtn").addEventListener("click",function(){
+    clearStore();
+    var ins=document.querySelectorAll('#questions input[type="radio"]');
+    for(var i=0;i<ins.length;i++) ins[i].checked=false;
+    var qs=document.querySelectorAll(".q.missing");
+    for(var k=0;k<qs.length;k++) qs[k].classList.remove("missing");
+    $("hint").hidden=true;
+    $("reportView").hidden=true; $("quizView").hidden=false;
+    progress(); window.scrollTo(0,0);
+  });
+
+  /* ---------- restore ---------- */
+  var d=load();
+  if(d&&d.a&&d.a.length===12){
+    for(var j=0;j<12;j++){ if(d.a[j]>=0){ var el=$("i"+j+"o"+d.a[j]); if(el) el.checked=true; } }
+    if(d.n) $("stuName").value=d.n;
+    if(d.s) $("stuId").value=d.s;
+  }
+  progress();
+  if(d&&d.done&&d.a&&d.a.indexOf(-1)<0){ save(d); report(d); }
+})();
+</script>
+</body>
+</html>
